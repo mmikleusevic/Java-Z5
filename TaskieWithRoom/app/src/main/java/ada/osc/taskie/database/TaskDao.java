@@ -1,0 +1,32 @@
+package ada.osc.taskie.database;
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
+
+import java.util.List;
+
+import ada.osc.taskie.model.Task;
+import ada.osc.taskie.model.TaskPriority;
+
+@Dao
+public interface TaskDao {
+
+    @Insert
+    void insert(Task task);
+
+    @Delete
+    void delete(final Task task);
+
+    @Query("SELECT * from task_table WHERE id = :Id")
+    Task findTaskByPrimaryKey(String Id);
+
+    @Query("SELECT * from task_table ORDER BY mPriority ASC")
+    List<Task> getAllTasks();
+
+
+    @Query("SELECT * from task_table WHERE mPriority = :priority  ORDER BY mPriority ASC")
+    List<Task> getFilter(TaskPriority priority);
+
+}
